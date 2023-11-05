@@ -13,21 +13,20 @@ image_path = os.path.join(diretorio_script, '../img/entrada/einstein.jpg')
 image = cv2.imread(image_path) 
 
 # Obtendo as dimensões da imagem
-image_height = image.shape[0]
-image_width = image.shape[1]
+image_height, image_width, _ = image.shape
 
 # Inicialização do histograma
-histograma_image = np.zeros(256)  
+histograma_image = np.zeros(256)
 
 # Cálculo do histograma
 for i in range(image_width):
     for j in range(image_height):
-        pixel_value = int(image[j, i][0])  # Valor do pixel na escala de cinza
+        pixel_value = int(image[j, i][0])  # Valor do pixel em escala de cinza
         histograma_image[pixel_value] += 1  # Contagem da ocorrência do valor do pixel
 
 # Plotagem do histograma da imagem
 plt.figure()
-plt.title('Histograma basico')
+plt.title('Histograma Básico')
 plt.bar(np.arange(len(histograma_image)), histograma_image, color='#34a0cf')
 plt.ylabel('Número de pixels')
 plt.xlabel('Valor de Intensidade')
@@ -37,11 +36,10 @@ plt.show()
 # Número total de pixels na imagem
 num_pixels = image_width * image_height  
 
-# histograma normalizado e acumulado
-histograma_normalizado = np.zeros(256) 
+# Cálculo da FDP e FDA
+histograma_normalizado = np.zeros(256)
 histograma_acumulado = np.zeros(256)
 
-# Cálculo da FDP e FDA
 for i in range(0, len(histograma_image)):
     pk = histograma_image[i] / num_pixels  # Probabilidade de ocorrência de um determinado valor de pixel
     histograma_normalizado[i] = pk  # Armazenando a FDP
@@ -52,7 +50,7 @@ for i in range(0, len(histograma_image)):
 
 # Plotagem do histograma da FDP
 plt.figure()
-plt.title('Histograma normalizado')
+plt.title('Histograma Normalizado')
 plt.bar(np.arange(len(histograma_normalizado)), histograma_normalizado, color='#34a0cf')
 plt.ylabel('Probabilidade p(r)')
 plt.xlabel('Valor de Intensidade')
@@ -61,7 +59,7 @@ plt.show()
 
 # Plotagem do histograma da FDA
 plt.figure()
-plt.title('Histograma acumulado')
+plt.title('Histograma Acumulado')
 plt.bar(np.arange(len(histograma_acumulado)), histograma_acumulado, color='#34a0cf')
 plt.ylabel('Probabilidade acumulada')
 plt.xlabel('Intensidade')
